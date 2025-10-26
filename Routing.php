@@ -1,5 +1,6 @@
 <?php
 
+require_once 'src/controllers/SecurityController.php';
 
 class Routing {
 
@@ -10,7 +11,9 @@ class Routing {
         include 'public/views/dashboard.html';
         break;
     case 'login':
-        include 'public/views/login.html';
+        $controller = new SecurityController();
+        $controller->login();
+        // include 'public/views/login.html';
         break;
     default:
         include 'public/views/404.html';
