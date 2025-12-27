@@ -5,21 +5,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" type="text/css" href="public/styles/main.css">
-    <link rel="stylesheet" type="text/css" href="public/styles/login.css">
+    <link rel="stylesheet" type="text/css" href="public/styles/register.css">
+            <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
+        <style>
+            body {
+            font-family: 'Inter'; font-size: 16px;
+            }
+        </style>
 </head>
 <body>
-    <form action="\register" method="POST">
-        <h1 id="title">REGISTER AS A NEW USER</h1>
+    <div id = "formDiv" class = "centered">
+            <form action="\register" method="POST">
+        <h1 id="title">Registration form</h1>
+        <div class="field">
+            <label for="email">Email</label>
+            <input name="email" type="email">
+        </div>
+        <div class="field">
+            <label for="password1">Password</label>
+            <input name="password1" type="password">
+        </div>
+        <div class="field">
+            <label for="password2">Password</label>
+            <input name="password2" type="password">
+        </div>
+        <div class="field">
+            <label for="firstname">First name</label>
+            <input name="firstname" type="text">
+        </div>
+        <div class="field">
+            <label for="lastname">Last name</label>
+            <input name="lastname" type="text">
+        </div>
 
-        <input name="email" type="email" placeholder="Podaj email">
-        <input name="password1" type="password" placeholder="Podaj hasło">
-        <input name="password2" type="password" placeholder="Powtórz hasło">
-
-        <input name="firstname" type="text" placeholder="Podaj imie">
-        <input name="lastname" type="text" placeholder="Podaj naziwsko">
-
-        <button type="submit">REGISTER</button>
+        <button type="submit" class="click">register</button>
+        <p class = "linklabel">Already have an account? <a href="\login">Log in</a></p>
     </form>
+    </div>
+
 
 </body>
 </html>

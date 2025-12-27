@@ -21,7 +21,7 @@ class SecurityController extends AppController {
         $password = $_POST["password"] ?? '';
 
         if (empty($email) || empty($password)) {
-            return $this->render('login', ['message' => 'Fill all fields']);
+            return $this->render('login', ['message' => 'Fill all fields please']);
         }
 
         $user =$this->userRepository->getUserByEmail($email);
@@ -31,7 +31,7 @@ class SecurityController extends AppController {
         }
 
         if (!password_verify($password, $user['password'])) {
-            return $this->render('login', ['message' => 'Wrong password']);
+            return $this->render('login', ['message' => 'Wrong password or login']);
         }
 
         //var_dump($email, $password);
@@ -57,7 +57,7 @@ class SecurityController extends AppController {
         $lastname = $_POST["lastname"] ?? '';
 
         if (empty($email) || empty($password1) || empty($firstname)) {
-            return $this->render('register', ['messages' => 'Fill all fields']);
+            return $this->render('register', ['messages' => 'Fill all fields please']);
         }
 
         if ($password1 !== $password2) {
