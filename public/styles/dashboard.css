@@ -1,0 +1,33 @@
+h1{
+  font-size: 45px;
+  color: black;
+  font-weight: lighter;
+  margin-top: 5%;
+  text-align: center;
+}
+.choice {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    font-weight: 500;
+    background-color: #92FF74;
+    width: 300px;
+    height: 300px;
+    border-radius: 16px;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(3, 360px); /* 3 kolumny po 300px */
+    gap: 75px;                               /* większy odstęp między przyciskami */
+    justify-content: center;                  /* wyśrodkowanie siatki poziomo */
+    margin-top: 100px;                         /* odstęp od góry strony */
+}
+
+
+

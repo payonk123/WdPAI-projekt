@@ -10,50 +10,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" type="text/css" href="public/styles/main.css">
+    <link rel="stylesheet" type="text/css" href="public/styles/dashboard.css">
     <script src="public/scripts/main.js" defer></script>
     <script src="public/scripts/search.js" defer></script>
+    <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
+    <style>
+        body {
+            font-family: 'Inter'; font-size: 16px;
+        }
+    </style>
 </head>
 
 <body>
-    <nav>
-        <p>LOGO</p>
-        <ul>
-             <li>
-                <div class="search-bar">
-                <input placeholder="search card">
-                </div>
-            </li>
-            <li>DASHBOARD</li>
-            <li>USERS</li>
-            <li>REPORTS</li>
-        </ul>
-    </nav>
-    <div class="container">
-        <aside>
-            <p>PODRECZNE MENU</p>
-        </aside>
-        <main>
-            <h1>CARDS</h1>
-            <!-- TODO display list of cards -->
-             <ul>
-             <?php foreach($cards as $key=>$value): ?> 
-             <li>
-                <?php echo $value['title']; ?>
-            <img src="<?= $value['imageUrlPath']; ?>">
-            </li> 
-             <?php endforeach; ?> 
-             </ul>
-        </main>
-<template id="card-template">
-   <div id="">
-       <img src="">
-       <div>
-           <h2>title</h2>
-           <p>description</p>
-       </div>
-   </div>
-</template>
-    </div>
-
+            <div>
+            <form action="\dashboard" method="POST">
+            <h1 class="form-title">Welcome back, imieuzytkownika!</h1>
+            <div class="buttons">
+                <a href="/calendar" class="choice">Go to the calendar!</a>
+                <a href="/calendar" class="choice">Search for a recipe!</a>
+                <a href="/calendar" class="choice">Add a recipe!</a>
+            </div>
+            </div>
+            
+            </form>
+        </div>
 </body>
 </html>

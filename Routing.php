@@ -17,6 +17,10 @@ class Routing {
             'controller' => 'DashboardController',
             'action' => 'index'
         ],
+        'calendar'=>[
+            'controller'=>'AppController',
+            'action' => 'index'
+        ],
     ];
 
 
@@ -26,6 +30,7 @@ class Routing {
             case 'dashboard':
             case 'login':
             case 'register':
+            case 'calendar':
                 $controller = Routing::$routes[$path]['controller'];
                 $action = Routing::$routes[$path]['action'];
 

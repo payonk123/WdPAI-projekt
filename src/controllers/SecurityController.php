@@ -71,7 +71,8 @@ class SecurityController extends AppController {
         $this->userRepository->createUser(
             $email,
             $hashedPassword,
-            $firstname
+            $firstname,
+            $lastname,
         );
 
         return $this->render("login", ["messages" => "Zarejestrowano uytkownika ".$email]);

@@ -13,6 +13,10 @@ class AppController {
         return $_SERVER["REQUEST_METHOD"] === 'POST';
     }
 
+    public function index() {
+        require_once __DIR__ . '/../../public/views/calendar.html';
+    }
+
     protected function render(string $template = null, array $variables = [])
     {
         $templatePath = 'public/views/'. $template.'.html';

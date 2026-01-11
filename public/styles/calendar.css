@@ -1,0 +1,73 @@
+.calendar-wrapper {
+    max-height: 80vh;     /* 80% wysokości ekranu */
+    overflow-y: auto;     /* scroll pionowy */
+    overflow-x: hidden;
+}
+
+.calendar {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 3%;
+    table-layout: fixed;
+}
+
+/* Szerokość kolumny Hour */
+.calendar th:first-child,
+.calendar td:first-child {
+    width: 80px; /* szerokość kolumny godziny */
+}
+
+/* wszystkie przyciski w tabeli */
+.slot-btn {
+    width: 100%;
+    height: 30px;
+    border: none;
+    cursor: pointer;
+}
+
+/* co drugi wiersz (tr) – przyciski będą różowe */
+.calendar tbody tr:nth-child(odd) td:not(:first-child) button {
+    background-color: #AEFF97;
+}
+
+/* co drugi wiersz (tr) – przyciski będą szare */
+.calendar tbody tr:nth-child(even) td:not(:first-child) button {
+    background-color: #EEEEEE;
+}
+
+h2{
+  font-size: 30px;
+  color: black;
+  font-weight: lighter;
+  margin-top: 2%;
+  text-align: center;
+}
+
+.slot {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}
+
+/* MODAL */
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+    background: white;
+    width: 300px;
+    padding: 20px;
+    margin: 150px auto;
+    border-radius: 8px;
+}
+
+.close {
+    float: right;
+    cursor: pointer;
+    font-size: 20px;
+}
