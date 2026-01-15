@@ -26,7 +26,7 @@
     cursor: pointer;
 }
 
-/* co drugi wiersz (tr) – przyciski będą różowe */
+/* co drugi wiersz (tr) – przyciski zielone */
 .calendar tbody tr:nth-child(odd) td:not(:first-child) button {
     background-color: #AEFF97;
 }
@@ -60,14 +60,56 @@ h2{
 
 .modal-content {
     background: white;
-    width: 300px;
+    width: 400px;
     padding: 20px;
     margin: 150px auto;
     border-radius: 8px;
+}
+
+.modal-content h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.modal-content p {
+    text-align: center;
+    white-space: normal;
+    word-wrap: break-word;
+    margin:  0;
 }
 
 .close {
     float: right;
     cursor: pointer;
     font-size: 20px;
+}
+
+.time-btn {
+    width: 30px;
+    height: 30px;
+    background-color:  #EEEEEE;
+    color: black;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 0;
+    margin-left:  8px;
+    display: inline-block;
+    vertical-align: middle;
+    transition: background-color 0.2s;
+}
+
+.time-btn:hover {
+    background-color: #ddd;
+}
+
+.time-btn:active {
+    background-color: #bbb;
+}
+
+.modal-content p {
+    white-space: nowrap;
+    overflow-x: auto;
 }

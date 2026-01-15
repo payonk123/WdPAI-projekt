@@ -1,0 +1,91 @@
+.add-recipe-container {
+    display: flex;
+    height: 100vh;
+    background-color: #f5f5f5;
+}
+
+.form-section {
+    width: 70%;
+    padding: 40px;
+    background-color:  white;
+    overflow-y:  auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.form-title {
+    font-size: 32px;
+    font-weight: 300;
+    color: black;
+    margin-bottom: 20px;
+    margin-top: 0;
+    width: 100%;
+    text-align: center;
+}
+
+.recipe-form {
+    max-width: 600px;
+    width: 100%;
+    display:  flex;
+    flex-direction:  column;
+    flex: 1;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+}
+
+.form-group label {
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: black;
+}
+
+.form-group input,
+.form-group textarea {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    resize: none;
+}
+
+.form-group textarea {
+    height: 100px;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #666;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+}
+
+.submit-btn {
+    width:  100%;
+    padding:  12px;
+    background-color: black;
+    color:  white;
+    border: none;
+    border-radius: 4px;
+    font-size:  16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: auto;
+    flex-shrink: 0;
+}
+
+.submit-btn:hover {
+    background-color:  #333;
+}
+
+.submit-btn:active {
+    background-color: #000;
+}

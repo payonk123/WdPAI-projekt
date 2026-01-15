@@ -1,6 +1,7 @@
 <?php
 require_once 'src/controllers/SecurityController.php';
 require_once 'src/controllers/DashboardController.php';
+require_once 'src/controllers/RecipeController.php';
 
 class Routing {
 
@@ -21,6 +22,10 @@ class Routing {
             'controller'=>'AppController',
             'action' => 'index'
         ],
+        'add_a_recipe'=>[
+            'controller'=>'RecipeController',
+            'action' => 'addRecipe'
+        ],
     ];
 
 
@@ -31,6 +36,7 @@ class Routing {
             case 'login':
             case 'register':
             case 'calendar':
+            case 'add_a_recipe':
                 $controller = Routing::$routes[$path]['controller'];
                 $action = Routing::$routes[$path]['action'];
 
