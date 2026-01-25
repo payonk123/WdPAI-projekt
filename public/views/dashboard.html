@@ -22,13 +22,16 @@
 </head>
 
 <body>
+
+         <a href="/logout" class="logout-btn">Log out</a>
             <div>
+               
             <form action="\dashboard" method="POST">
-            <h1 class="form-title">Welcome back, imieuzytkownika!</h1>
+            <h1 class="form-title">Welcome back, <?php echo isset($_SESSION['firstname']) ? htmlspecialchars($_SESSION['firstname']) : 'Guest'; ?>!</h1>
             <div class="buttons">
                 <a href="/calendar" class="choice">Go to the calendar!</a>
-                <a href="/calendar" class="choice">Search for a recipe!</a>
-                <a href="/add_a_recipe" class="choice">Add a recipe!</a>
+                <a href="/search_recipe" class="choice">Search for a recipe!</a>
+                <a href="/add_recipe" class="choice">Add a recipe!</a>
             </div>
             </div>
             

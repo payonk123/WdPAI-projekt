@@ -2,6 +2,8 @@
 require_once 'src/controllers/SecurityController.php';
 require_once 'src/controllers/DashboardController.php';
 require_once 'src/controllers/RecipeController.php';
+require_once 'src/controllers/SearchController.php';
+require_once 'src/controllers/DetailController.php';
 
 class Routing {
 
@@ -22,10 +24,23 @@ class Routing {
             'controller'=>'AppController',
             'action' => 'index'
         ],
-        'add_a_recipe'=>[
+        'logout' => [
+            'controller' => 'SecurityController',
+            'action' => 'logout'
+        ],
+        'add_recipe'=>[
             'controller'=>'RecipeController',
             'action' => 'addRecipe'
         ],
+        'search_recipe'=>[
+            'controller'=>'SearchController',
+            'action' => 'searchRecipe'
+        ],        
+        'recipe_detail'=>[
+            'controller'=>'DetailController',
+            'action' => 'showRecipe'
+        ],
+        
     ];
 
 
@@ -36,7 +51,10 @@ class Routing {
             case 'login':
             case 'register':
             case 'calendar':
-            case 'add_a_recipe':
+            case 'logout':
+            case 'add_recipe':
+            case 'search_recipe':
+            case 'recipe_detail':
                 $controller = Routing::$routes[$path]['controller'];
                 $action = Routing::$routes[$path]['action'];
 

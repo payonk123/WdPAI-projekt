@@ -34,17 +34,16 @@ class SecurityController extends AppController {
             return $this->render('login', ['message' => 'Wrong password or login']);
         }
 
-        //var_dump($email, $password);
-        // TODO get data from database
-        // TODO create user session/ cookie
+        // Utwórz sesję
+        $_SESSION['id_user'] = $user['id_user'];
+        $_SESSION['email'] = $user['email'];
+        $_SESSION['firstname'] = $user['firstname'];
+        $_SESSION['lastname'] = $user['lastname'];
 
-         $this->render("dashboard");
+        return $this->redirect("dashboard");
     }
 
     public function register() {
-        // TODO pobranie z formularza email i hasła
-        // TODO insert do bazy danych
-        // TODO zwrocenie informajci o pomyslnym zarejstrowaniu
 
         if ($this->isGet()) {
             return $this->render("register");
@@ -56,25 +55,42 @@ class SecurityController extends AppController {
         $firstname = $_POST["firstname"] ?? '';
         $lastname = $_POST["lastname"] ?? '';
 
-        if (empty($email) || empty($password1) || empty($firstname)) {
+        if (empty($email) || empty($password1) || empty($password2) || empty($firstname) || empty($lastname)) {
             return $this->render('register', ['messages' => 'Fill all fields please']);
         }
 
         if ($password1 !== $password2) {
-            return $this->render('register', ['messages' => 'asswords should be the same!']);
+            return $this->render('register', ['messages' => 'Passwords should be the same!']);
         }
 
-        // TODO check if user with this email already exists
+        // Sprawdzenie czy email już istnieje
+        if ($this->userRepository->emailExists($email)) {
+            return $this->render('register', ['message' => 'User with this email already exists']);
+        }
 
-        $hashedPassword = password_hash($password1, PASSWORD_BCRYPT);
+        // Walidacja hasła
+        if (strlen($password1) < 6) {
+            return $this->render('register', ['message' => 'Password must be at least 6 characters']);
+        }
 
-        $this->userRepository->createUser(
-            $email,
-            $hashedPassword,
-            $firstname,
-            $lastname,
-        );
+        try {
+            $hashedPassword = password_hash($password1, PASSWORD_BCRYPT);
 
-        return $this->render("login", ["messages" => "Zarejestrowano uytkownika ".$email]);
+            $this->userRepository->createUser(
+                $email,
+                $hashedPassword,
+                $firstname,
+                $lastname
+            );
+
+                return $this->render("login", ["message" => "User " . $email . " registered successfully"]);
+            } catch (Exception $e) {
+                return $this->render('register', ['message' => 'Error during registration: ' . $e->getMessage()]);
+            }
+        }
+
+        public function logout() {
+            session_destroy();
+           return $this->redirect("login");
+        }
     }
-}

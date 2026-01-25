@@ -22,6 +22,8 @@
 <body>
     <div class="add-recipe-container">
         <div class="form-section">
+            <a href="/dashboard" class="home-btn">Home</a>
+            <a href="/logout" class="logout-btn">Log out</a>
             <h1 class="form-title">Add a recipe</h1>
             <form action="/add-recipe" method="POST" class="recipe-form">
                 <div class="form-group">
@@ -46,6 +48,12 @@
 
                 <button type="submit" class="submit-btn">OK</button>
             </form>
+        </div>
+        <div class="sidebar-section">
+            <div class="time-container">
+                <label for="cooking-time">Cooking time (minutes)</label>
+                <input type="number" id="cooking-time" name="p_time" min="1" required>
+            </div>
         </div>
     </div>
 </body>

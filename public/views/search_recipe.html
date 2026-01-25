@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Recipes</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="public/styles/search_recipe.css">
+    <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
+    <style>
+        body {
+            font-family: 'Inter'; font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <a href="/dashboard" class="home-btn">Home</a>
+    <a href="/logout" class="logout-btn">Log out</a>
+    <div class="container">
+        <div class="header">
+            <h1>Your Recipes</h1>
+        </div>
+
+        <div class="recipes-list" id="recipesList">
+        </div>
+    </div>
+
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                Are you sure you want to delete <strong id="recipeName"></strong>?  
+            </div>
+            <div class="modal-buttons">
+                <button class="btn-cancel" onclick="closeDeleteModal()">Cancel</button>
+                <button class="btn-confirm-delete" onclick="confirmDelete()">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="public/scripts/searchRecipe.js"></script>
+</body>
+</html>

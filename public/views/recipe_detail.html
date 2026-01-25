@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Detail</title>
+    <link rel="stylesheet" href="public/styles/recipe_detail.css">
+</head>
+<body>
+    <a href="/dashboard" class="home-btn">Home</a>
+    <a href="/logout" class="logout-btn">Log out</a>
+    <div class="container">
+        <div class="recipe-header">
+            <h1 id="recipeName">Recipe_Name</h1>
+            <div class="screen-lock-toggle">
+                <input type="checkbox" id="keepScreenOn" class="toggle-checkbox">
+                <label for="keepScreenOn" class="toggle-label">
+                    <span class="toggle-icon">📱</span>
+                    <span class="toggle-text">Keep screen on</span>
+                </label>
+            </div>
+        </div>
+
+        <div class="recipe-content">
+            <section class="section">
+                <h2>Ingredients</h2>
+                <ul id="ingredientsList" class="ingredients-list">
+                    <li>eggs 2</li>
+                    <li>flour 1 glass</li>
+                    <li>milk 1 glass</li>
+                    <li>oil two spoons</li>
+                    <li>water half a glass</li>
+                </ul>
+            </section>
+
+            <section class="section">
+                <h2>Instructions</h2>
+                <div class="instructions-box">
+                    <ul id="instructionsList" class="instructions-list">
+                        <li>mix the ingredients</li>
+                        <li>fry the mixture</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="section info-section">
+                <div class="info-item">
+                    <div class="clock-icon">
+                        <svg viewBox="0 0 24 24" width="60" height="60" stroke="currentColor" fill="none" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                    </div>
+                    <span id="recipeTime" class="time-text">00:40</span>
+                </div>
+            </section>
+        </div>
+
+        <div class="recipe-footer">
+            <p id="recipePortion">Portions: 4</p>
+        </div>
+    </div>
+
+    <script src="recipe_detail.js"></script>
+</body>
+</html>

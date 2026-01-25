@@ -1,0 +1,264 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background:  #ffffff;
+    min-height: 100vh;
+    padding: 40px 20px;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.header {
+    text-align:  center;
+    margin-bottom:  50px;
+}
+
+.header h1 {
+    font-size: 2em;
+    font-weight: 400;
+    color: #000;
+    letter-spacing: 0.5px;
+}
+
+.recipes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.recipe-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 0;
+}
+
+.recipe-name {
+    flex: 1;
+    background: #e8e8e8;
+    padding:  15px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1em;
+    color: #333;
+    font-weight: 400;
+    transition: all 0.3s ease;
+    min-height: 45px;
+    display: flex;
+    align-items: center;
+}
+
+.recipe-name:hover {
+    background: #d8d8d8;
+    transform: translateX(3px);
+}
+
+.recipe-actions {
+    display:  flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.btn-edit, .btn-delete {
+    width: 50px;
+    height: 45px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1. 3em;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.btn-edit {
+    background: #66cc33;
+    color: white;
+}
+
+.btn-edit:hover {
+    background: #55bb22;
+    transform: scale(1.05);
+}
+
+.btn-delete {
+    background: #ffcccc;
+    color: #ff6666;
+}
+
+.btn-delete:hover {
+    background:  #ffbbbb;
+    transform: scale(1.05);
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.modal-content {
+    background-color: white;
+    margin:  30% auto;
+    padding: 30px;
+    border-radius:  12px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        transform:  translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform:  translateY(0);
+        opacity: 1;
+    }
+}
+
+.modal-header {
+    font-size: 1.2em;
+    color: #333;
+    margin-bottom: 25px;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 25px;
+}
+
+.modal-buttons button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.95em;
+    transition: all 0.3s ease;
+}
+
+.btn-cancel {
+    background: #f0f0f0;
+    color: #333;
+}
+
+.btn-cancel:hover {
+    background: #e0e0e0;
+}
+
+.btn-confirm-delete {
+    background: #ff6666;
+    color: white;
+}
+
+.btn-confirm-delete:hover {
+    background:  #ff5555;
+}
+
+.empty-state {
+    text-align: center;
+    padding:  60px 20px;
+    color: #999;
+}
+
+.empty-state i {
+    font-size:  3em;
+    margin-bottom: 20px;
+    opacity: 0.5;
+}
+
+.empty-state p {
+    font-size: 1.1em;
+}
+
+.home-btn {
+    position: absolute;
+    top: 20px;
+    left: 40px;
+    padding: 10px 20px;
+    background-color: #000000;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: none;
+    display: inline-block;
+    font-family: 'Inter';
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+.home-btn:hover {
+    background-color: #92FF74;
+}
+
+.logout-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    background-color: #ff6b6b;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: none;
+    display: inline-block;
+    font-family: 'Inter';
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+.logout-btn:hover {
+    background-color: #ff5252;
+}
+
+@media (max-width: 600px) {
+    .header h1 {
+        font-size: 1.6em;
+    }
+
+    .recipe-item {
+        gap: 10px;
+    }
+
+    .btn-edit, .btn-delete {
+        width: 45px;
+        height: 40px;
+        font-size:  1em;
+    }
+}
