@@ -18,7 +18,7 @@
 
 .sidebar-section {
     width: 25%;
-    background-color: rgb(255, 255, 255);
+    background-color: #ffffff;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -26,12 +26,48 @@
     padding: 40px 20px;
 }
 
+.buttons-container {
+    position: absolute;
+    top: 20px;
+    left: 40px;
+    right: 40px;
+    display: flex;
+    gap: 10px;
+    width: auto;
+    margin-bottom: 30px;
+}
+
+.home-btn, .logout-btn {
+    padding: 10px 20px;
+    background-color: #000000;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    border: none;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+}
+
+.home-btn:hover {
+    background-color: #97f67c;
+}
+
+.logout-btn {
+    background-color: #ff6b6b;
+}
+
+.logout-btn:hover {
+    background-color: #ee5a52;
+}
+
 .time-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 20px;
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgba(0, 0, 0, 0.08);
     padding: 40px;
     border-radius: 10px;
     width: 100%;
@@ -67,7 +103,7 @@
     font-weight: 300;
     color: black;
     margin-bottom: 20px;
-    margin-top: 0;
+    margin-top: 80px;
     width: 100%;
     text-align: center;
 }
@@ -93,7 +129,8 @@
     color: black;
 }
 
-.form-group input,
+.form-group input[type="text"],
+.form-group input[type="number"],
 .form-group textarea {
     padding: 12px;
     border: 1px solid #ddd;
@@ -114,6 +151,95 @@
     box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
 }
 
+/* INGREDIENTY */
+#ingredients-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin: 10px 0;
+}
+
+.ingredient-row {
+    display: grid;
+    grid-template-columns: 2fr 1.5fr 1fr 40px;
+    gap: 10px;
+    align-items: flex-end;
+    padding: 12px;
+    background-color: #f9f9f9;
+    border-radius: 4px;
+    border: 1px solid #e0e0e0;
+}
+
+.ingredient-field {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.ingredient-field label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.ingredient-field select,
+.ingredient-field input[type="number"] {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    background-color: white;
+    transition: border-color 0.2s;
+}
+
+.ingredient-field select:focus,
+.ingredient-field input[type="number"]:focus {
+    outline: none;
+    border-color: #666;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.05);
+}
+
+.remove-ingredient-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #ff6b6b;
+    cursor: pointer;
+    padding: 0;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s, transform 0.2s;
+}
+
+.remove-ingredient-btn:hover {
+    color: #ee5a52;
+    transform: scale(1.2);
+}
+
+.add-ingredient-btn {
+    padding: 10px 15px;
+    background-color: #000000;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s;
+    align-self: flex-start;
+    margin-top: 10px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+}
+
+.add-ingredient-btn:hover {
+    background-color: #333;
+}
+
 .submit-btn {
     width: 100%;
     padding: 12px;
@@ -125,58 +251,54 @@
     font-weight: 600;
     cursor: pointer;
     transition: background-color 0.3s;
-    margin-top: auto;
+    margin-top: 30px;
     flex-shrink: 0;
+    font-family: 'Inter', sans-serif;
 }
 
 .submit-btn:hover {
     background-color: #333;
 }
 
-.submit-btn:active {
-    background-color: #000;
-}
-
-.home-btn {
-    position: absolute;
-    top: 20px;
-    left: 40px;
-    padding: 10px 20px;
-    background-color: #000000;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+.message-box {
+    padding: 12px 15px;
+    background-color: #ffe8e8;
+    border: 1px solid #ffcccc;
+    border-radius: 4px;
+    color: #cc0000;
+    margin-bottom: 20px;
     font-size: 14px;
-    text-decoration: none;
-    display: inline-block;
-    font-family: 'Inter';
-    font-weight: 500;
-    transition: background-color 0.3s ease;
+    width: 100%;
+    max-width: 600px;
 }
 
-.home-btn:hover {
-    background-color: #92FF74;
-}
+@media (max-width: 768px) {
+    .add-recipe-container {
+        flex-direction: column;
+        height: auto;
+    }
 
-.logout-btn {
-    position: absolute;
-    top: 20px;
-    right: 40px;
-    padding: 10px 20px;
-    background-color: #ff6b6b;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-    text-decoration: none;
-    display: inline-block;
-    font-family: 'Inter';
-    font-weight: 500;
-    transition: background-color 0.3s ease;
-}
+    .form-section {
+        width: 100%;
+        padding: 20px;
+    }
 
-.logout-btn:hover {
-    background-color: #ff5252;
+    .sidebar-section {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .ingredient-row {
+        grid-template-columns: 1fr;
+    }
+
+    .form-title {
+        margin-top: 60px;
+    }
+
+    .buttons-container {
+        position: static;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+    }
 }

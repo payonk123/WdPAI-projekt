@@ -1,18 +1,50 @@
 * {
     margin: 0;
-    padding:  0;
+    padding: 0;
     box-sizing: border-box;
 }
 
 body {
-    background:  #ffffff;
-    min-height: 100vh;
+    background: #ffffff;
     padding: 40px 20px;
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+}
+
+.home-btn, .logout-btn {
+    position: fixed;
+    top: 20px;
+    padding: 10px 20px;
+    background-color: #000000;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 14px;
+    z-index: 100;
+    transition: background-color 0.3s;
+}
+
+.home-btn {
+    left: 20px;
+}
+
+.home-btn:hover {
+    background-color: #4d4d4d;
+}
+
+.logout-btn {
+    right: 20px;
+    background-color: #ff6b6b;
+}
+
+.logout-btn:hover {
+    background-color: #ee5a52;
 }
 
 .container {
-    max-width: 600px;
+    max-width: 800px;
     margin: 0 auto;
+    margin-top: 60px;
 }
 
 .recipe-header {
@@ -26,11 +58,12 @@ body {
     color: #000;
     letter-spacing: 0.5px;
     margin-bottom: 20px;
+    word-wrap: break-word;
 }
 
 .screen-lock-toggle {
-    display:  flex;
-    align-items:  center;
+    display: flex;
+    align-items: center;
     justify-content: center;
     gap: 12px;
 }
@@ -67,10 +100,9 @@ body {
     font-weight: 500;
 }
 
-/* Checked state */
 .toggle-checkbox:checked + .toggle-label {
-    background: #66cc33;
-    border-color:  #55bb22;
+    background: #000000;
+    border-color: #000000;
 }
 
 .toggle-checkbox:checked + .toggle-label .toggle-text {
@@ -78,7 +110,7 @@ body {
 }
 
 .toggle-checkbox:checked + .toggle-label .toggle-icon {
-    transform:  scale(1.2);
+    transform: scale(1.2);
 }
 
 .recipe-content {
@@ -101,10 +133,33 @@ body {
     letter-spacing: 0.3px;
 }
 
-.ingredients-list {
+.ingredients-box {
     background: #e8e8e8;
-    padding:  20px 25px;
+    padding: 20px 25px;
     border-radius: 8px;
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+.ingredients-box::-webkit-scrollbar {
+    width: 8px;
+}
+
+.ingredients-box::-webkit-scrollbar-track {
+    background: #d0d0d0;
+    border-radius: 10px;
+}
+
+.ingredients-box::-webkit-scrollbar-thumb {
+    background: #999;
+    border-radius: 10px;
+}
+
+.ingredients-box::-webkit-scrollbar-thumb:hover {
+    background: #666;
+}
+
+.ingredients-list {
     list-style-position: inside;
     line-height: 1.8;
     color: #333;
@@ -112,39 +167,55 @@ body {
 }
 
 .ingredients-list li {
-    margin: 5px 0;
-}
-
-.instructions-box {
-    background:  #e8e8e8;
-    padding: 20px 25px;
-    border-radius: 8px;
-    min-height: 200px;
-}
-
-.instructions-list {
-    list-style-position: inside;
-    line-height: 1.8;
-    color: #333;
-    font-size: 0.95em;
-}
-
-.instructions-list li {
     margin: 8px 0;
 }
 
+.instructions-box {
+    background: #e8e8e8;
+    padding: 20px 25px;
+    border-radius: 8px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.instructions-box::-webkit-scrollbar {
+    width: 8px;
+}
+
+.instructions-box::-webkit-scrollbar-track {
+    background: #d0d0d0;
+    border-radius: 10px;
+}
+
+.instructions-box::-webkit-scrollbar-thumb {
+    background: #999;
+    border-radius: 10px;
+}
+
+.instructions-box::-webkit-scrollbar-thumb:hover {
+    background: #666;
+}
+
+.instructions-text {
+    color: #333;
+    font-size: 0.95em;
+    line-height: 1.8;
+    margin: 0;
+}
+
 .info-section {
-    display:  flex;
-    align-items:  center;
-    justify-content:  center;
-    gap: 30px;
-    padding: 40px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 60px;
+    padding: 40px 0 0 0;
+    border-top: 1px solid #ddd;
 }
 
 .info-item {
     display: flex;
     align-items: center;
-    gap: 25px;
+    gap: 20px;
 }
 
 .clock-icon {
@@ -153,83 +224,44 @@ body {
     justify-content: center;
     width: 80px;
     height: 80px;
-    border:  2px solid #333;
+    border: 2px solid #333;
     border-radius: 50%;
     color: #333;
 }
 
 .time-text {
-    font-size: 1.8em;
+    font-size: 1.5em;
     color: #333;
-    font-weight: 400;
-    letter-spacing:  1px;
+    font-weight: 600;
 }
 
-.recipe-footer {
-    text-align: center;
-    padding:  30px 0;
-    border-top: 1px solid #f0f0f0;
-    margin-top: 20px;
+.portions-text {
+    font-size: 1.2em;
+    color: #333;
+    font-weight: 600;
 }
 
-.recipe-footer p {
-    font-size: 0.95em;
-    color: #666;
-    font-weight: 500;
-}
+@media (max-width: 768px) {
+    body {
+        padding: 20px 15px;
+    }
 
-.home-btn {
-    position: absolute;
-    top: 20px;
-    left: 40px;
-    padding: 10px 20px;
-    background-color: #000000;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-    text-decoration: none;
-    display: inline-block;
-    font-family: 'Inter';
-    font-weight: 500;
-    transition: background-color 0.3s ease;
-}
+    .home-btn, .logout-btn {
+        padding: 8px 15px;
+        font-size: 12px;
+    }
 
-.home-btn:hover {
-    background-color: #92FF74;
-}
+    .container {
+        margin-top: 50px;
+    }
 
-.logout-btn {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    padding: 10px 20px;
-    background-color: #ff6b6b;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-    text-decoration: none;
-    display: inline-block;
-    font-family: 'Inter';
-    font-weight: 500;
-    transition: background-color 0.3s ease;
-}
-
-.logout-btn:hover {
-    background-color: #ff5252;
-}
-
-@media (max-width: 600px) {
     .recipe-header h1 {
-        font-size: 2em;
+        font-size: 1.8em;
     }
 
     .info-section {
-        gap: 20px;
-        padding: 30px 0;
+        flex-direction: column;
+        gap: 30px;
     }
 
     .clock-icon {
@@ -238,6 +270,6 @@ body {
     }
 
     .time-text {
-        font-size: 1.4em;
+        font-size: 1.2em;
     }
 }

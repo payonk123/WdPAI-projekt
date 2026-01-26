@@ -22,6 +22,24 @@
         </div>
 
         <div class="recipes-list" id="recipesList">
+            <?php if(isset($recipes) && !empty($recipes)): ?>
+                <?php foreach($recipes as $recipe): ?>
+                    <div class="recipe-item">
+                        <div class="recipe-name" data-recipe-id="<?php echo $recipe['id_recipe']; ?>" onclick="viewRecipe(this.dataset.recipeId)">
+                            <?php echo htmlspecialchars($recipe['name']); ?>
+                        </div>
+                        <div class="recipe-actions">
+                            <button class="btn-delete" data-recipe-id="<?php echo $recipe['id_recipe']; ?>" data-recipe-name="<?php echo htmlspecialchars($recipe['name']); ?>" onclick="openDeleteModal(this.dataset.recipeId, this.dataset.recipeName)" title="Delete recipe">
+                                ✕
+                            </button>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <div class="empty-state">
+                    <p>No recipes yet. <a href="/add_recipe">Start adding your favorites!</a></p>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 

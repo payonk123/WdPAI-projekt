@@ -5,61 +5,76 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recipe Detail</title>
     <link rel="stylesheet" href="public/styles/recipe_detail.css">
+    <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
+    <style>
+        body {
+            font-family: 'Inter';
+        }
+    </style>
 </head>
 <body>
-    <a href="/dashboard" class="home-btn">Home</a>
+    <a href="/search_recipe" class="home-btn">Recipes</a>
     <a href="/logout" class="logout-btn">Log out</a>
-    <div class="container">
-        <div class="recipe-header">
-            <h1 id="recipeName">Recipe_Name</h1>
-            <div class="screen-lock-toggle">
-                <input type="checkbox" id="keepScreenOn" class="toggle-checkbox">
-                <label for="keepScreenOn" class="toggle-label">
-                    <span class="toggle-icon">📱</span>
-                    <span class="toggle-text">Keep screen on</span>
-                </label>
+    
+    <?php if(isset($recipe)): ?>
+        <div class="container">
+            <div class="recipe-header">
+                <h1><?php echo htmlspecialchars($recipe['name']); ?></h1>
+                <div class="screen-lock-toggle">
+                    <input type="checkbox" id="keepScreenOn" class="toggle-checkbox">
+                    <label for="keepScreenOn" class="toggle-label">
+                        <span class="toggle-text">Keep screen on</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="recipe-content">
+                <!-- SKŁADNIKI -->
+                <section class="section">
+                    <h2>Ingredients</h2>
+                    <div class="ingredients-box">
+                        <ul class="ingredients-list">
+                            <?php if(isset($ingredients) && !empty($ingredients)): ?>
+                                <?php foreach($ingredients as $ingredient): ?>
+                                    <li>
+                                        <?php echo htmlspecialchars($ingredient['ingredient_name']); ?> 
+                                        - 
+                                        <?php echo htmlspecialchars($ingredient['amount']); ?> <?php echo htmlspecialchars($ingredient['unit_name']); ?>
+                                    </li>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <li>No ingredients added</li>
+                            <?php endif; ?>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- INSTRUKCJE -->
+                <section class="section">
+                    <h2>Instructions</h2>
+                    <div class="instructions-box">
+                        <p class="instructions-text">
+                            <?php echo nl2br(htmlspecialchars($recipe['instructions'])); ?>
+                        </p>
+                    </div>
+                </section>
+
+                <!-- CZAS I PORCJE -->
+                <section class="section info-section">
+                    <div class="info-item">
+                        <span class="time-text"><?php echo htmlspecialchars($recipe['p_time']); ?> min</span>
+                        <p></p><p></p><p></p>
+                        <span class="portions-text">Portions: <?php echo htmlspecialchars($recipe['portions']); ?></span>
+                    </div>
+                </section>
             </div>
         </div>
-
-        <div class="recipe-content">
-            <section class="section">
-                <h2>Ingredients</h2>
-                <ul id="ingredientsList" class="ingredients-list">
-                    <li>eggs 2</li>
-                    <li>flour 1 glass</li>
-                    <li>milk 1 glass</li>
-                    <li>oil two spoons</li>
-                    <li>water half a glass</li>
-                </ul>
-            </section>
-
-            <section class="section">
-                <h2>Instructions</h2>
-                <div class="instructions-box">
-                    <ul id="instructionsList" class="instructions-list">
-                        <li>mix the ingredients</li>
-                        <li>fry the mixture</li>
-                    </ul>
-                </div>
-            </section>
-
-            <section class="section info-section">
-                <div class="info-item">
-                    <div class="clock-icon">
-                        <svg viewBox="0 0 24 24" width="60" height="60" stroke="currentColor" fill="none" stroke-width="2">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <polyline points="12 6 12 12 16 14"></polyline>
-                        </svg>
-                    </div>
-                    <span id="recipeTime" class="time-text">00:40</span>
-                </div>
-            </section>
+    <?php else: ?>
+        <div class="container">
+            <p>Recipe not found</p>
+            <a href="/search_recipe">Back to recipes</a>
         </div>
-
-        <div class="recipe-footer">
-            <p id="recipePortion">Portions: 4</p>
-        </div>
-    </div>
+    <?php endif; ?>
 
     <script src="recipe_detail.js"></script>
 </body>
