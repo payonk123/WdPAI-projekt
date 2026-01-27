@@ -89,5 +89,84 @@ class RecipeController extends AppController {
             }
         }
     }
+
+    public function getUserRecipes() {
+        // Allow fetch 
+        header('Content-Type: application/json');
+        
+        if (!isset($_SESSION['id_user'])) {
+            http_response_code(401);
+            echo json_encode(['error' => 'User not logged in']);
+            return;
+        }
+
+        try {
+            $recipes = $this->recipeRepository->getRecipesByUserId($_SESSION['id_user']);
+            echo json_encode($recipes);
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(['error' => $e->getMessage()]);
+        }
+    }
+
+    public function addSegment() {
+        $contentType = isset($_SERVER["CONTENT_TYPE"]) ? trim($_SERVER["CONTENT_TYPE"]) : '';
+
+        if ($contentType === "application/json") {
+            $content = trim(file_get_contents("php://input"));
+            $decoded = json_decode($content, true);
+
+            header('Content-type: application/json');
+
+            if (!isset($_SESSION['id_user'])) {
+                 http_response_code(401);
+                 echo json_encode(['error' => 'User not logged in']);
+                 return;
+            }
+
+            $id_recipe = $decoded['id_recipe'] ?? null;
+            $start_time = $decoded['start_time'] ?? null;
+            $end_time = $decoded['end_time'] ?? null;
+
+            if (!$id_recipe || !$start_time || !$end_time) {
+                http_response_code(400);
+                echo json_encode(['error' => 'Missing parameters']);
+                return;
+            }
+
+            // Check overlap
+            if ($this->recipeRepository->isSegmentOverlapping($_SESSION['id_user'], $start_time, $end_time)) {
+                http_response_code(409); // Conflict
+                echo json_encode(['error' => 'Time slot overlaps with an existing segment']);
+                return;
+            }
+
+            try {
+                $segmentId = $this->recipeRepository->addSegment($id_recipe, $start_time, $end_time);
+                echo json_encode(['success' => true, 'id_segment_r' => $segmentId]);
+            } catch (Exception $e) {
+                http_response_code(500);
+                echo json_encode(['error' => $e->getMessage()]);
+            }
+        }
+    }
+
+    public function getUserSegments() {
+       header('Content-Type: application/json');
+
+       if (!isset($_SESSION['id_user'])) {
+           http_response_code(401);
+           echo json_encode(['error' => 'User not logged in']);
+           return;
+       }
+
+       try {
+           $segments = $this->recipeRepository->getSegmentsByUserId($_SESSION['id_user']);
+           echo json_encode($segments);
+       } catch (Exception $e) {
+           http_response_code(500);
+           echo json_encode(['error' => $e->getMessage()]);
+       }
+    }
 }
 ?>

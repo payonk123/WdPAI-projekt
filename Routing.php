@@ -40,31 +40,30 @@ class Routing {
             'controller'=>'DetailController',
             'action' => 'showRecipe'
         ],
-        
+        'get_recipes'=>[
+            'controller'=>'RecipeController',
+            'action' => 'getUserRecipes'
+        ],
+        'add_segment'=>[
+            'controller'=>'RecipeController',
+            'action' => 'addSegment'
+        ],
+        'get_segments'=>[
+            'controller'=>'RecipeController',
+            'action' => 'getUserSegments'
+        ]
     ];
 
 
     public static function run(string $path) {
-        //TODO na podstawie sciezki sprawdzamy jaki HTML zwrocic
-        switch ($path) {
-            case 'dashboard':
-            case 'login':
-            case 'register':
-            case 'calendar':
-            case 'logout':
-            case 'add_recipe':
-            case 'search_recipe':
-            case 'recipe_detail':
-                $controller = Routing::$routes[$path]['controller'];
-                $action = Routing::$routes[$path]['action'];
+        if (array_key_exists($path, self::$routes)) {
+            $controller = self::$routes[$path]['controller'];
+            $action = self::$routes[$path]['action'];
 
-                $controllerObj = new $controller;
-                $controllerObj->$action();
-                break;
-
-            default:
-                include 'public/views/404.html';
-                break;
-        } 
+            $controllerObj = new $controller;
+            $controllerObj->$action();
+        } else {
+            include 'public/views/404.html';
+        }
     }
 }

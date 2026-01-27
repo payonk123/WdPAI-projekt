@@ -225,3 +225,113 @@ h2 {
 .logout-btn:hover {
     background-color: #ff5252;
 }
+
+body {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+}
+
+.calendar-header-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#calendar-title {
+    margin: 0;
+    text-align: center;
+    min-width: 300px;
+}
+
+.nav-arrow {
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    padding-bottom: 3px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: #555;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.nav-arrow:hover {
+    background-color: #f7f7f7;
+    color: #000;
+    border-color: #999;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* Lilac color for booked segments */
+.booked-segment {
+    background-color: #DCD0FF !important; /* Lilac */
+    color: #4a4a4a;
+    position: relative;
+    z-index: 10;
+}
+
+/* Custom Segment Shapes for continuous block look */
+.segment-top {
+    border-top-left-radius: 6px !important;
+    border-top-right-radius: 6px !important;
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+
+/*Cover the gap below the top/middle segment */
+.segment-top::after,
+.segment-middle::after {
+    content: '';
+    position: absolute;
+    bottom: -5px; /* Adjust based on your table border-spacing/padding */
+    left: 0;
+    width: 100%;
+    height: 10px; /* Bridge thickness */
+    background-color: #DCD0FF;
+    z-index: 20; /* On top of this button, but below content if needed */
+}
+
+.segment-middle {
+    border-radius: 0 !important;
+}
+
+.segment-bottom {
+    border-bottom-left-radius: 6px !important;
+    border-bottom-right-radius: 6px !important;
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+    z-index: 30; /* Ensure this sits on top of any bridge coming from above if overlapping */
+}
+
+.segment-single {
+    border-radius: 6px !important;
+}
+
+/* Recipe Label on the tile */
+.recipe-label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: bold;
+    color: #333;
+    pointer-events: none; /* Let clicks pass through if needed, though button is disabled */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 4px; /* Padding to avoid text hitting borders */
+    z-index: 40; /* Above bridges */
+}

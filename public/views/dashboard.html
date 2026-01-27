@@ -24,7 +24,7 @@
 <body>
 <a href="/logout" class="logout-btn">Log out</a>
 <h1 class="form-title">
-    Welcome back, <?php echo isset($_SESSION['firstname']) ? htmlspecialchars($_SESSION['firstname']) : 'Guest'; ?>!
+    Welcome, <?php echo isset($_SESSION['firstname']) ? htmlspecialchars($_SESSION['firstname']) : 'Guest'; ?>!
 </h1>
 
 <div class="dashboard">

@@ -1,63 +1,36 @@
-let ingredientCount = 1;
+let ingredientCount = 1; // Start from 1 since index 0 is the template row
 
 function addIngredient() {
     const container = document.getElementById('ingredients-container');
-    const index = ingredientCount;
-    ingredientCount++;
+    // Get the first row to use as a template (it contains the populated selects)
+    const firstRow = container.querySelector('.ingredient-row');
+    
+    if (!firstRow) {
+        console.error("No template row found!");
+        return;
+    }
 
-    const newRow = document.createElement('div');
-    newRow.className = 'ingredient-row';
-    newRow.innerHTML = `
-                <div class="ingredient-field">
-                    <label>Ingredient</label>
-                    <select name="ingredients[${index}][id_in]" class="ingredient-select" required>
-                        <option value="">Select ingredient</option>
-                        <?php if(isset($ingredients)): ?>
-                            <?php foreach($ingredients as $ingredient): ?>
-                                <option value="<?php echo htmlspecialchars($ingredient['id_in']); ?>">
-                                    <?php echo htmlspecialchars($ingredient['name']); ?>
-                                </option>
-                            <?php endforeach; ?>
-                        <?php endif; ?>
-                    </select>
-                </div>
-
-                <div class="ingredient-field">
-                    <label>Unit</label>
-                    <select name="ingredients[${index}][id_unity]" class="unity-select" required>
-                        <option value="">Select unit</option>
-                        <?php if(isset($units)): ?>
-                            <?php foreach($units as $unit): ?>
-                                <option value="<?php echo htmlspecialchars($unit['id_unity']); ?>">
-                                    <?php echo htmlspecialchars($unit['name']); ?>
-                                </option>
-                            <?php endforeach; ?>
-                        <?php endif; ?>
-                    </select>
-                </div>
-
-                <div class="ingredient-field">
-                    <label>Amount</label>
-                    <input type="number" 
-                           name="ingredients[${index}][amount]" 
-                           class="amount-input" 
-                           step="0.01" 
-                           min="0.01" 
-                           required>
-                </div>
-
-                <button type="button" class="remove-ingredient-btn" onclick="removeIngredient(this)" title="Remove ingredient">
-                    ✕
-                </button>
-            `;
+    const newRow = firstRow.cloneNode(true);
+    
+    // Update names and clear values
+    const elements = newRow.querySelectorAll('input, select');
+    elements.forEach(el => {
+        // Update name: ingredients[0][field] -> ingredients[newIndex][field]
+        if (el.name) {
+            el.name = el.name.replace(/\[\d+\]/, `[${ingredientCount}]`);
+        }
+        // Reset value
+        el.value = "";
+    });
 
     container.appendChild(newRow);
+    ingredientCount++;
 }
 
 function removeIngredient(button) {
     const rows = document.querySelectorAll('.ingredient-row');
     if (rows.length > 1) {
-        button.parentElement.remove();
+        button.closest('.ingredient-row').remove();
     } else {
         alert('You must have at least one ingredient!');
     }

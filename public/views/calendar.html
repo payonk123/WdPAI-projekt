@@ -12,29 +12,28 @@
     <link rel="stylesheet" type="text/css" href="public/styles/main.css">
     <link rel="stylesheet" type="text/css" href="public/styles/calendar.css">
     <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
-    <style>
-        body {
-            font-family: 'Inter'; font-size: 16px;
-        }
-    </style>
 </head>
 
 <body>
 <a href="/dashboard" class="home-btn">Home</a>
 <a href="/logout" class="logout-btn">Log out</a>
-<h2>12 Jan - 18 Jan 2026</h2>
+<div class="calendar-header-nav">
+    <button class="nav-arrow" onclick="changeWeek(-1)">&larr;</button>
+    <h2 id="calendar-title"></h2>
+    <button class="nav-arrow" onclick="changeWeek(1)">&rarr;</button>
+</div>
 <div class="calendar-wrapper">
   <table class="calendar">
     <thead>
       <tr>
         <th>Hour</th>
-        <th>Monday</th>
-        <th>Tuesday</th>
-        <th>Wednesday</th>
-        <th>Thursday</th>
-        <th>Friday</th>
-        <th>Saturday</th>
-        <th>Sunday</th>
+        <th id="th-0">Monday</th>
+        <th id="th-1">Tuesday</th>
+        <th id="th-2">Wednesday</th>
+        <th id="th-3">Thursday</th>
+        <th id="th-4">Friday</th>
+        <th id="th-5">Saturday</th>
+        <th id="th-6">Sunday</th>
       </tr>
     </thead>
     <tbody>
@@ -329,15 +328,16 @@
             Start time: <span id="modal-start"></span>
             &nbsp;&nbsp;
             End time: <span id="modal-end"></span>
-            <button onclick="decreaseEndTime()" class="time-btn">−</button>
-            <button onclick="increaseEndTime()" class="time-btn">+</button>
         </p>
+        <label for="recipeDropdown">Choose a Recipe:</label>
+        <select id="recipeDropdown">
+            <option value="" disabled selected>Select a recipe</option>
+        </select>
         <div class="modal-buttons">
             <button class="btn-cancel" onclick="closeModal()">Cancel</button>
             <button class="btn-ok" onclick="confirmSegment()">OK</button>
         </div>
     </div>
 </div>
-
 <script src="public/scripts/calendar.js"></script>
 </body>
