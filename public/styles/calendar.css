@@ -335,3 +335,18 @@ body {
     padding: 0 4px; /* Padding to avoid text hitting borders */
     z-index: 40; /* Above bridges */
 }
+
+.btn-confirm-delete {
+    background: #ff6666;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.btn-confirm-delete:hover {
+    background:  #ff5555;
+}

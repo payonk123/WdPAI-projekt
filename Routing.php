@@ -51,6 +51,14 @@ class Routing {
         'get_segments'=>[
             'controller'=>'RecipeController',
             'action' => 'getUserSegments'
+        ],
+        'delete_segment'=>[
+            'controller'=>'RecipeController',
+            'action' => 'deleteSegment'
+        ],
+        'delete_recipe'=>[
+            'controller'=>'RecipeController',
+            'action' => 'deleteRecipe'
         ]
     ];
 

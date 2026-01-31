@@ -133,5 +133,25 @@ class RecipeRepository {
         
         return $stmt->fetchColumn() > 0;
     }
+
+    public function deleteSegment($id_segment) {
+        $pdo = $this->database->connect();
+
+        // First: Delete the specific segment by ID
+        $query1 = "DELETE FROM SEGMENTS_R WHERE id_segment_r = :id_segment";
+        $stmt1 = $pdo->prepare($query1);
+        $stmt1->bindParam(':id_segment', $id_segment, PDO::PARAM_INT);
+        $result1 = $stmt1->execute();
+        
+        error_log("Delete by ID result: " . ($result1 ? "success" : "failed"));
+        error_log("Rows affected: " . $stmt1->rowCount());
+    }
+
+    public function deleteRecipe($id_recipe) {
+        $pdo = $this->database->connect();
+        $stmt = $pdo->prepare("DELETE FROM RECIPES WHERE id_recipe = :id_recipe");
+        $stmt->bindParam(':id_recipe', $id_recipe, PDO::PARAM_INT);
+        $stmt->execute();
+    }
 }
 ?>

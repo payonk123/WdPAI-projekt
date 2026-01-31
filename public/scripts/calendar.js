@@ -1,21 +1,22 @@
 let currentStartTime = '';
 let currentEndTime = '';
 let minEndTime = '';
-let currentDayIndex = 0; // 0=Monday, ...
+let currentDayIndex = 0;
 let currentSlotColor = '';
 let segments = [];
 let currentWeekStart = new Date(); 
 
 // Set to Monday of current week
-function getMonday(d) {
-    d = new Date(d);
+function getMonday() {
+    var d = new Date();
     var day = d.getDay(),
-        diff = d.getDate() - day + (day == 0 ? -6 : 1); 
-    return new Date(d.setDate(diff));
+    diff = d.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday (sunday=0)
+    d.setDate(diff);
+    return d;
 }
 
 function initCalendar() {
-    currentWeekStart = getMonday(new Date());
+    currentWeekStart = getMonday();
     updateCalendarHeader();
     loadSegments();
 }
@@ -63,12 +64,10 @@ function loadSegments() {
                     // Calculate relative day index (0-6)
                     // If start time is Monday, diff in days from weekStart
                     const diffTime = Math.abs(start - weekStart);
-                    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)); 
-                    const dayIndex = diffDays;
+                    const dayIndex = Math.floor(diffTime / (1000 * 60 * 60 * 24)); // z milisekund na doby
 
                     // Calculate duration in minutes
-                    const durationMs = end - start;
-                    const durationMinutes = Math.round(durationMs / 60000);
+                    const durationMinutes = Math.round((end-start) / 60000);
 
                     // Format HH:MM from start time
                     const startH = start.getHours();
@@ -97,11 +96,10 @@ function updateCalendarHeader() {
     }
 
     // Title
-    const start = new Date(currentWeekStart);
     const end = new Date(currentWeekStart);
     end.setDate(end.getDate() + 6);
 
-    const startStr = start.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+    const startStr = currentWeekStart.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
     const endStr = end.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
     const yearStr = end.toLocaleDateString('en-GB', { year: 'numeric' });
 
@@ -127,16 +125,11 @@ function openEventModal(dayName, endTime) {
     currentEndTime = endTime;
     minEndTime = endTime;
 
-    // Use event.target properly - assuming this function is called from onclick
-    // Note: 'event' is deprecated global, safer if passed, but usually works in inline handlers
     const color = window.getComputedStyle(event.target).backgroundColor;
     currentSlotColor = color;
 
     document.getElementById('modal-start').textContent = startTime;
-    // We will clear End Time text or make it depend on recipe selection? 
-    // The prompt says: "end_time = start_time + p_time"
-    // But initially no recipe is selected.
-    document.getElementById('modal-end').textContent = '...'; 
+    document.getElementById('modal-end').textContent = '...'; //end time depends on chosen recipe
 
     loadRecipes(); // Fetch recipes via AJAX
 
@@ -178,11 +171,15 @@ function loadRecipes() {
 }
 
 function confirmSegment() {
+    const btnOk = document.querySelector('.btn-ok');
+    if (btnOk) btnOk.disabled = true;
+
     const select = document.getElementById('recipeDropdown');
     const selectedOption = select.options[select.selectedIndex];
     
     if (!selectedOption.value) {
         alert("Please select a recipe first.");
+        if (btnOk) btnOk.disabled = false;
         return;
     }
 
@@ -206,10 +203,31 @@ function confirmSegment() {
     // End Date
     const endDateObj = new Date(startDateObj.getTime() + durationMinutes * 60000);
     
+    // Validate: segment must end by 11:30 PM (23:30)
+    // Check if it crosses into the next day OR ends after 23:30 on the same day
+    if (endDateObj.getDate() > startDateObj.getDate() || endDateObj.getMonth() > startDateObj.getMonth() || endDateObj.getFullYear() > startDateObj.getFullYear()) {
+        // Segment crosses into next day - not allowed
+        const endH = endDateObj.getHours();
+        const endM = endDateObj.getMinutes();
+        alert(`Cannot add segment: This recipe would end at ${String(endH).padStart(2, '0')}:${String(endM).padStart(2, '0')} the next day. Segments must end by 23:30 (11:30 PM) on the same day.`);
+        if (btnOk) btnOk.disabled = false;
+        return;
+    }
+    
+    const endH = endDateObj.getHours();
+    const endM = endDateObj.getMinutes();
+    const endTotalMinutes = endH * 60 + endM;
+    const maxAllowedMinutes = 23 * 60 + 30; // 11:30 PM = 1410 minutes
+    
+    if (endTotalMinutes > maxAllowedMinutes) {
+        alert(`Cannot add segment: This recipe would end at ${String(endH).padStart(2, '0')}:${String(endM).padStart(2, '0')}, but segments must end by 23:30 (11:30 PM).`);
+        if (btnOk) btnOk.disabled = false;
+        return;
+    }
+    
     // Save to DB
     // Format for DB: YYYY-MM-DD HH:MM:SS
     const formatDB = (d) => {
-        // Adjust to local ISO roughly or use library... simple implementation:
         const pad = (n) => String(n).padStart(2, '0');
         return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
     };
@@ -230,9 +248,11 @@ function confirmSegment() {
     .then(response => response.json())
     .then(data => {
         if(data.success) {
-            // Visualize on Calendar
-            visualizeSegment(currentDayIndex, currentStartTime, durationMinutes, data.id_segment_r, '#DCD0FF', recipeName, pTime);
+            // Close modal first
             closeModal();
+            // Reload segments from database to ensure everything is synchronized
+            clearCalendar();
+            loadSegments();
         } else {
             alert("Error saving segment: " + (data.error || 'Unknown error'));
         }
@@ -240,6 +260,9 @@ function confirmSegment() {
     .catch(err => {
         console.error(err);
         alert("Network error");
+    })
+    .finally(() => {
+        if (btnOk) btnOk.disabled = false;
     });
 }
 
@@ -324,23 +347,76 @@ function visualizeSegment(dayIndex, startTimeStr, durationMinutes, segmentId, co
         
         closeBtn.onclick = function(e) {
             e.stopPropagation();
-            alert("Delete not implemented fully yet (needs backend)");
-            // deleteSegment(segmentId); // calling existing deleteSegment
+            openDeleteSegmentModal(segmentId);
         };
         firstButton.appendChild(closeBtn);
     }
 }
 
+let segmentIdToDelete = null;
 
-// ... existing deleteSegment ...
-function deleteSegment(segmentId) {
-    if(confirm("Are you sure you want to delete this segment?")) {
-        // TODO: Implement backend delete
-        console.log("Delete segment", segmentId);
-        // For now, reload to clear (but it won't clear from DB without endpoint)
-        // loadSegments(); 
-        alert("Backend delete not implemented yet.");
+function openDeleteSegmentModal(segmentId) {
+    segmentIdToDelete = segmentId;
+    const modal = document.getElementById('deleteSegmentModal');
+    if(modal) modal.style.display = 'block';
+}
+
+function closeDeleteSegmentModal() {
+    segmentIdToDelete = null;
+    const modal = document.getElementById('deleteSegmentModal');
+    if(modal) modal.style.display = 'none';
+}
+
+function confirmDeleteSegment() {
+    if(!segmentIdToDelete) {
+        console.error("No segment ID to delete");
+        return;
     }
+
+    const segmentId = segmentIdToDelete;
+    
+    // Disable button to prevent double-clicks
+    const deleteBtn = document.querySelector('.btn-confirm-delete');
+    if (deleteBtn) deleteBtn.disabled = true;
+
+    console.log("Deleting segment ID:", segmentId);
+
+    fetch('/delete_segment', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id_segment: segmentId })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log("Delete response:", data);
+        if (data.success) {
+            console.log("Delete successful, reloading calendar...");
+            closeDeleteSegmentModal();
+            clearCalendar();
+            loadSegments();
+            
+            // Re-enable button after operation completes
+            setTimeout(() => {
+                if (deleteBtn) deleteBtn.disabled = false;
+            }, 500);
+        } else {
+            console.error("Delete failed:", data.error);
+            alert("Could not delete segment: " + (data.error || "Unknown error"));
+            if (deleteBtn) deleteBtn.disabled = false;
+        }
+    })
+    .catch(err => {
+        console.error("Delete error:", err);
+        alert("Network error: " + err.message);
+        if (deleteBtn) deleteBtn.disabled = false;
+    });
 }
 
 function closeModal() {
@@ -350,14 +426,13 @@ function closeModal() {
 
 window.onclick = function (event) {
     const modal = document.getElementById('modal');
+    const deleteModal = document.getElementById('deleteSegmentModal');
     if (event.target === modal) {
-        modal.style.display = 'none';
+        closeModal();
+    }
+    if (event.target === deleteModal) {
+        closeDeleteSegmentModal();
     }
 };
 
-// Ensure DOM is ready before init
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initCalendar);
-} else {
-    initCalendar();
-}
+initCalendar();

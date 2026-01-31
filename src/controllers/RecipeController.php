@@ -168,5 +168,71 @@ class RecipeController extends AppController {
            echo json_encode(['error' => $e->getMessage()]);
        }
     }
+
+    public function deleteSegment() {
+        $contentType = isset($_SERVER["CONTENT_TYPE"]) ? trim($_SERVER["CONTENT_TYPE"]) : '';
+
+        if ($contentType === "application/json") {
+            $content = trim(file_get_contents("php://input"));
+            $decoded = json_decode($content, true);
+
+            header('Content-type: application/json');
+
+            if (!isset($_SESSION['id_user'])) {
+                 http_response_code(401);
+                 echo json_encode(['error' => 'User not logged in']);
+                 return;
+            }
+
+            $id_segment = $decoded['id_segment'] ?? null;
+
+            if (!$id_segment) {
+                http_response_code(400);
+                echo json_encode(['error' => 'Missing ID']);
+                return;
+            }
+
+            try {
+                $this->recipeRepository->deleteSegment($id_segment);
+                echo json_encode(['success' => true]);
+            } catch (Exception $e) {
+                http_response_code(500);
+                echo json_encode(['error' => $e->getMessage()]);
+            }
+        }
+    }
+
+    public function deleteRecipe() {
+        $contentType = isset($_SERVER["CONTENT_TYPE"]) ? trim($_SERVER["CONTENT_TYPE"]) : '';
+
+        if ($contentType === "application/json") {
+            $content = trim(file_get_contents("php://input"));
+            $decoded = json_decode($content, true);
+
+            header('Content-type: application/json');
+
+            if (!isset($_SESSION['id_user'])) {
+                 http_response_code(401);
+                 echo json_encode(['error' => 'User not logged in']);
+                 return;
+            }
+
+            $id_recipe = $decoded['id_recipe'] ?? null;
+
+            if (!$id_recipe) {
+                http_response_code(400);
+                echo json_encode(['error' => 'Missing ID']);
+                return;
+            }
+
+            try {
+                $this->recipeRepository->deleteRecipe($id_recipe);
+                echo json_encode(['success' => true]);
+            } catch (Exception $e) {
+                http_response_code(500);
+                echo json_encode(['error' => $e->getMessage()]);
+            }
+        }
+    }
 }
 ?>
