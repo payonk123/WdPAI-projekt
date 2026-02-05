@@ -14,6 +14,9 @@ class AppController {
     }
 
     public function index() {
+        if (!isset($_SESSION['id_user'])) {
+            return $this->redirect('/login');
+        }
         require_once __DIR__ . '/../../public/views/calendar.html';
     }
 

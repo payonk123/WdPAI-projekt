@@ -137,14 +137,21 @@ class RecipeRepository {
     public function deleteSegment($id_segment) {
         $pdo = $this->database->connect();
 
-        // First: Delete the specific segment by ID
-        $query1 = "DELETE FROM SEGMENTS_R WHERE id_segment_r = :id_segment";
-        $stmt1 = $pdo->prepare($query1);
-        $stmt1->bindParam(':id_segment', $id_segment, PDO::PARAM_INT);
-        $result1 = $stmt1->execute();
-        
-        error_log("Delete by ID result: " . ($result1 ? "success" : "failed"));
-        error_log("Rows affected: " . $stmt1->rowCount());
+        // Delete cooking segment from SEGMENTS_R
+        $query = "DELETE FROM SEGMENTS_R WHERE id_segment_r = :id_segment";
+        $stmt = $pdo->prepare($query);
+        $stmt->bindParam(':id_segment', $id_segment, PDO::PARAM_INT);
+        $stmt->execute();
+    }
+
+    public function deleteSegmentP($id_segment) {
+        $pdo = $this->database->connect();
+
+        // Delete eating segment from SEGMENTS_P
+        $query = "DELETE FROM SEGMENTS_P WHERE id_segment_p = :id_segment";
+        $stmt = $pdo->prepare($query);
+        $stmt->bindParam(':id_segment', $id_segment, PDO::PARAM_INT);
+        $stmt->execute();
     }
 
     public function deleteRecipe($id_recipe) {
@@ -152,6 +159,75 @@ class RecipeRepository {
         $stmt = $pdo->prepare("DELETE FROM RECIPES WHERE id_recipe = :id_recipe");
         $stmt->bindParam(':id_recipe', $id_recipe, PDO::PARAM_INT);
         $stmt->execute();
+    }
+
+    public function getPreparedByUserId($id_user) {
+        $pdo = $this->database->connect();
+        
+        $query = "SELECT p.id_prepared, p.id_segment_r, p.portions_left, r.name as recipe_name
+                  FROM PREPARED p
+                  JOIN SEGMENTS_R sr ON p.id_segment_r = sr.id_segment_r
+                  JOIN RECIPES r ON sr.id_recipe = r.id_recipe
+                  WHERE r.id_user = :id_user AND p.portions_left > 0
+                  ORDER BY p.id_prepared DESC";
+        
+        $stmt = $pdo->prepare($query);
+        $stmt->bindParam(':id_user', $id_user, PDO::PARAM_INT);
+        $stmt->execute();
+        
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getPreparedByUserIdBeforeTime($id_user, $before_time) {
+        $pdo = $this->database->connect();
+        
+        $query = "SELECT p.id_prepared, p.id_segment_r, p.portions_left, r.name as recipe_name
+                  FROM PREPARED p
+                  JOIN SEGMENTS_R sr ON p.id_segment_r = sr.id_segment_r
+                  JOIN RECIPES r ON sr.id_recipe = r.id_recipe
+                  WHERE r.id_user = :id_user AND p.portions_left > 0 AND sr.end_time <= :before_time
+                  ORDER BY p.id_prepared DESC";
+        
+        $stmt = $pdo->prepare($query);
+        $stmt->bindParam(':id_user', $id_user, PDO::PARAM_INT);
+        $stmt->bindParam(':before_time', $before_time, PDO::PARAM_STR);
+        $stmt->execute();
+        
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function addSegmentP($id_prepared, $start_time, $end_time) {
+        $pdo = $this->database->connect();
+        
+        // Insert the eating segment
+        $query = "INSERT INTO SEGMENTS_P (id_prepared, start_time, end_time) 
+                  VALUES (:id_prepared, :start_time, :end_time)";
+        
+        $stmt = $pdo->prepare($query);
+        $stmt->bindParam(':id_prepared', $id_prepared, PDO::PARAM_INT);
+        $stmt->bindParam(':start_time', $start_time, PDO::PARAM_STR);
+        $stmt->bindParam(':end_time', $end_time, PDO::PARAM_STR);
+        
+        $stmt->execute();
+        
+        return $pdo->lastInsertId();
+    }
+
+    public function getSegmentsPByUserId($id_user) {
+        $pdo = $this->database->connect();
+        
+        $query = "SELECT sp.id_segment_p, sp.id_prepared, sp.start_time, sp.end_time, r.name as recipe_name
+                  FROM SEGMENTS_P sp
+                  JOIN PREPARED p ON sp.id_prepared = p.id_prepared
+                  JOIN SEGMENTS_R sr ON p.id_segment_r = sr.id_segment_r
+                  JOIN RECIPES r ON sr.id_recipe = r.id_recipe
+                  WHERE r.id_user = :id_user";
+        
+        $stmt = $pdo->prepare($query);
+        $stmt->bindParam(':id_user', $id_user, PDO::PARAM_INT);
+        $stmt->execute();
+        
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
 ?>

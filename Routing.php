@@ -59,6 +59,18 @@ class Routing {
         'delete_recipe'=>[
             'controller'=>'RecipeController',
             'action' => 'deleteRecipe'
+        ],
+        'get_prepared'=>[
+            'controller'=>'RecipeController',
+            'action' => 'getPrepared'
+        ],
+        'add_segment_p'=>[
+            'controller'=>'RecipeController',
+            'action' => 'addSegmentP'
+        ],
+        'get_segments_p'=>[
+            'controller'=>'RecipeController',
+            'action' => 'getUserSegmentsP'
         ]
     ];
 

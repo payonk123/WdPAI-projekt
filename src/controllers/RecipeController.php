@@ -18,6 +18,9 @@ class RecipeController extends AppController {
     }
 
     public function addRecipe() {
+        if (!isset($_SESSION['id_user'])) {
+            return $this->redirect('/login');
+        }
         if($this->isGet()) {
             $ingredients = $this->ingredientRepository->getAllIngredients();
             $units = $this->unityRepository->getAllUnits();
@@ -185,6 +188,7 @@ class RecipeController extends AppController {
             }
 
             $id_segment = $decoded['id_segment'] ?? null;
+            $segment_type = $decoded['segment_type'] ?? 'r';
 
             if (!$id_segment) {
                 http_response_code(400);
@@ -193,7 +197,11 @@ class RecipeController extends AppController {
             }
 
             try {
-                $this->recipeRepository->deleteSegment($id_segment);
+                if ($segment_type === 'p') {
+                    $this->recipeRepository->deleteSegmentP($id_segment);
+                } else {
+                    $this->recipeRepository->deleteSegment($id_segment);
+                }
                 echo json_encode(['success' => true]);
             } catch (Exception $e) {
                 http_response_code(500);
@@ -233,6 +241,85 @@ class RecipeController extends AppController {
                 echo json_encode(['error' => $e->getMessage()]);
             }
         }
+    }
+
+    public function getPrepared() {
+        header('Content-Type: application/json');
+        
+        if (!isset($_SESSION['id_user'])) {
+            http_response_code(401);
+            echo json_encode(['error' => 'User not logged in']);
+            return;
+        }
+
+        $before_time = $_GET['before_time'] ?? null;
+
+        if (!$before_time) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Missing before_time parameter']);
+            return;
+        }
+
+        try {
+            $prepared = $this->recipeRepository->getPreparedByUserIdBeforeTime($_SESSION['id_user'], $before_time);
+            echo json_encode($prepared);
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(['error' => $e->getMessage()]);
+        }
+    }
+
+    public function addSegmentP() {
+        $contentType = isset($_SERVER["CONTENT_TYPE"]) ? trim($_SERVER["CONTENT_TYPE"]) : '';
+
+        if ($contentType === "application/json") {
+            $content = trim(file_get_contents("php://input"));
+            $decoded = json_decode($content, true);
+
+            header('Content-type: application/json');
+
+            if (!isset($_SESSION['id_user'])) {
+                 http_response_code(401);
+                 echo json_encode(['error' => 'User not logged in']);
+                 return;
+            }
+
+            $id_prepared = $decoded['id_prepared'] ?? null;
+            $start_time = $decoded['start_time'] ?? null;
+            $end_time = $decoded['end_time'] ?? null;
+
+            if (!$id_prepared || !$start_time || !$end_time) {
+                http_response_code(400);
+                echo json_encode(['error' => 'Missing parameters']);
+                return;
+            }
+
+            try {
+                $segmentId = $this->recipeRepository->addSegmentP($id_prepared, $start_time, $end_time);
+                echo json_encode(['success' => true, 'id_segment_p' => $segmentId]);
+            } catch (Exception $e) {
+                http_response_code(500);
+                echo json_encode(['error' => $e->getMessage()]);
+            }
+        }
+    }
+
+    public function getUserSegmentsP() {
+       header('Content-Type: application/json');
+
+       if (!isset($_SESSION['id_user'])) {
+           http_response_code(401);
+           echo json_encode(['error' => 'User not logged in']);
+           return;
+       }
+
+       try {
+           $segments = $this->recipeRepository->getSegmentsPByUserId($_SESSION['id_user']);
+           echo json_encode($segments);
+       } catch (Exception $e) {
+           http_response_code(500);
+           echo json_encode(['error' => $e->getMessage()]);
+       }
     }
 }
 ?>

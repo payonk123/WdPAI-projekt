@@ -44,16 +44,20 @@
                         <div class="ingredient-row">
                             <div class="ingredient-field">
                                 <label>Ingredient</label>
-                                <select name="ingredients[0][id_in]" class="ingredient-select" required>
-                                    <option value="">Select ingredient</option>
-                                    <?php if(isset($ingredients)): ?>
-                                        <?php foreach($ingredients as $ingredient): ?>
-                                            <option value="<?php echo htmlspecialchars($ingredient['id_in']); ?>">
-                                                <?php echo htmlspecialchars($ingredient['name']); ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    <?php endif; ?>
-                                </select>
+                                <div class="ingredient-search">
+                                    <input type="text" class="ingredient-input" placeholder="Search ingredient..." required>
+                                    <ul class="ingredient-list" style="display:none;"></ul>
+                                    <select name="ingredients[0][id_in]" class="ingredient-select" style="display:none;" required>
+                                        <option value="">Select ingredient</option>
+                                        <?php if(isset($ingredients)): ?>
+                                            <?php foreach($ingredients as $ingredient): ?>
+                                                <option value="<?php echo htmlspecialchars($ingredient['id_in']); ?>">
+                                                    <?php echo htmlspecialchars($ingredient['name']); ?>
+                                                </option>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
+                                    </select>
+                                </div>
                             </div>
 
                             <div class="ingredient-field">
@@ -105,6 +109,18 @@
         </div>
 
         <div class="sidebar-section">
+            <div class="timer-section">
+                <div class="label-hint">
+                    <label>Timer</label>
+                    <p class="hint-text">🐛Measure the time while you cook🐛</p>
+                </div>
+                <p2 id="demo">00:00</p2>
+                <div class="timer-controls">
+                    <button onclick="start()">(Re)Start</button>
+                    <button onclick="stop()">Stop</button>
+                    <button onclick="continue_time()">Continue</button>
+                </div>
+            </div>
             <div class="time-container">
                 <label for="p_time">Cooking time (minutes)</label>
                 <input type="number" id="p_time" name="p_time" min="1" required form="add_recipe_form">

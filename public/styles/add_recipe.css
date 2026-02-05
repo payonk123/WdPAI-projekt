@@ -51,7 +51,7 @@
 }
 
 .home-btn:hover {
-    background-color: #97f67c;
+    background-color: #4d4d4d;
 }
 
 .logout-btn {
@@ -62,7 +62,7 @@
     background-color: #ee5a52;
 }
 
-.time-container {
+ .time-container  {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -202,6 +202,67 @@
     box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.05);
 }
 
+/* Ingredient Search */
+.ingredient-search {
+    position: relative;
+    width: 100%;
+}
+
+.ingredient-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    background-color: white;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
+}
+
+.ingredient-input:focus {
+    outline: none;
+    border-color: #666;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.05);
+}
+
+.ingredient-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    list-style: none;
+    margin: 5px 0 0 0;
+    padding: 0;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 100;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.ingredient-list li {
+    padding: 10px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    color: #333;
+}
+
+.ingredient-list li:hover {
+    background-color: #f0f0f0;
+}
+
+.ingredient-list li:first-child {
+    border-radius: 4px 4px 0 0;
+}
+
+.ingredient-list li:last-child {
+    border-radius: 0 0 4px 4px;
+}
+
 .remove-ingredient-btn {
     background: none;
     border: none;
@@ -302,3 +363,74 @@
         flex-wrap: wrap;
     }
 }
+
+/* === TIMER SECTION === */
+
+.sidebar-section { gap: 40px; }
+
+.timer-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    background-color: rgba(0, 0, 0, 0.08);
+    padding: 40px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 250px;
+}
+
+.timer-section label {
+    font-size: 16px;
+    font-weight: 500;
+    color: rgb(49, 49, 49);
+    text-align: center;
+}
+
+#demo {
+    font-size: 24px;
+    font-weight: 600;
+    color: rgb(49, 49, 49);
+    font-family: 'Inter', sans-serif;
+}
+
+.timer-section .hint-text {
+    color: rgb(4, 119, 23);  /* green text */
+    font-size: 12px;          /* small */
+    margin: 0;                /* remove all default margins */
+    padding: 0;               /* remove padding if any */
+    display: block;           /* ensure it’s on its own line */
+}
+
+.timer-controls {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+    justify-content: center;
+}
+
+.timer-section button {
+    padding: 8px 12px;
+    font-size: 12px;
+    font-weight: 500;
+    border-radius: 5px;
+    border: none;
+    background-color: #ffffff;
+    color: #333;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: background-color 0.3s;
+    flex: 1;
+}
+
+.timer-section button:hover {
+    background-color: #f0f0f0;
+}
+
+.label-hint {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px; /* very small gap between label and hint */
+}
+
