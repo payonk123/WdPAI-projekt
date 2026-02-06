@@ -19,7 +19,8 @@ class RecipeController extends AppController {
 
     public function addRecipe() {
         if (!isset($_SESSION['id_user'])) {
-            return $this->redirect('/login');
+            http_response_code(401);
+            return $this->render('/login');
         }
         if($this->isGet()) {
             $ingredients = $this->ingredientRepository->getAllIngredients();

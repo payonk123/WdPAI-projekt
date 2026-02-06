@@ -83,6 +83,7 @@ class Routing {
             $controllerObj = new $controller;
             $controllerObj->$action();
         } else {
+            http_response_code(404);
             include 'public/views/404.html';
         }
     }

@@ -13,6 +13,8 @@ class SecurityController extends AppController {
     // TODO dekarator, który definiuje, jakie metody HTTP są dostępne
     public function login() {
 
+        $loginFailures;
+
         if($this->isGet()) {
             return $this->render("login");
         } 
@@ -25,16 +27,25 @@ class SecurityController extends AppController {
         }
 
         $user =$this->userRepository->getUserByEmail($email);
+        $login_failed = false;
 
         if (!$user) {
-            return $this->render('login', ['message' => 'User not found']);
+            $this->userRepository->createlogin($_SERVER['REMOTE_ADDR'], 0);
+            $login_failed = true;
         }
 
         if (!password_verify($password, $user['password'])) {
-            return $this->render('login', ['message' => 'Wrong password or login']);
+            $this->userRepository->createlogin($_SERVER['REMOTE_ADDR'], 0);
+            $login_failed = true;
         }
 
-        // Utwórz sesję
+        if($login_failed){
+            $loginFailures = $this->userRepository->sumlogin($_SERVER['REMOTE_ADDR']);
+            return $this->render('login', ['message' => 'Wrong password or email.', 'failures' => $loginFailures]);
+        }
+
+        $this->userRepository->createlogin($_SERVER['REMOTE_ADDR'], 1);
+
         $_SESSION['id_user'] = $user['id_user'];
         $_SESSION['email'] = $user['email'];
         $_SESSION['firstname'] = $user['firstname'];
@@ -56,16 +67,16 @@ class SecurityController extends AppController {
         $lastname = $_POST["lastname"] ?? '';
 
         if (empty($email) || empty($password1) || empty($password2) || empty($firstname) || empty($lastname)) {
-            return $this->render('register', ['messages' => 'Fill all fields please']);
+            return $this->render('register', ['message' => 'Fill all fields please']);
         }
 
         if ($password1 !== $password2) {
-            return $this->render('register', ['messages' => 'Passwords should be the same!']);
+            return $this->render('register', ['message' => 'Passwords should be the same!']);
         }
 
         // Sprawdzenie czy email już istnieje
         if ($this->userRepository->emailExists($email)) {
-            return $this->render('register', ['message' => 'User with this email already exists']);
+            return $this->render('register', ['message' => 'Failed to create an account']);
         }
 
         // Walidacja hasła

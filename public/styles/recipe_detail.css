@@ -12,7 +12,7 @@ body {
 }
 
 .home-btn, .logout-btn {
-    position: fixed;
+    position: absolute;
     top: 20px;
     padding: 10px 20px;
     background-color: #000000;

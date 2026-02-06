@@ -13,7 +13,8 @@ class SearchController extends AppController {
 
     public function searchRecipe() {
         if (!isset($_SESSION['id_user'])) {
-            return $this->redirect('/login');
+            http_response_code(401);
+            return $this->render("login");
         }
 
         $recipes = $this->recipeRepository->getRecipesByUserId($_SESSION['id_user']);

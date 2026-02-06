@@ -4,8 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Document</title>
-        <link rel="stylesheet" type="text/css" href="public/styles/main.css">
-        <link rel="stylesheet" type="text/css" href="public/styles/login.css">
+        <link rel="stylesheet" type="text/css" href="public/styles/register.css">
         <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
         <style>
             body {
@@ -18,10 +17,11 @@
             <form action="\login" method="POST">
             <h1 class="form-title">Welcome to Segments!<br>Please log in.</h1>
             <?php if(isset($message)): ?>
-            <p class="message">
+            <p class="error-message">
                 <?= $message; ?>
             </p>
             <?php endif; ?>
+
 
             <div class = "btnGroup">
                 <div class="field">
@@ -33,14 +33,13 @@
                     <label for="password">Password</label>
                     <input id="password" name="password" type="password">
                 </div>
-
-                <button type="submit" class = "click">login</button>
                 <br>
+                <button type="submit" id="loginBtn" class="login-button">Login</button>
+                <p id="lockoutMessage" class="lockout-message" style="display:none;"></p>
                 <p class = "linklabel">Don't have an account? <a href="\register">Register</a></p>
             </div>
             
             </form>
         </div>
-        
     </body>
 </html>

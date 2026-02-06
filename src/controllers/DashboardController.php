@@ -7,7 +7,8 @@ class DashboardController extends AppController {
 
     public function index() {
         if (!isset($_SESSION['id_user'])) {
-            return $this->redirect('/login');
+            http_response_code(401);
+            return $this->render("login");
         }
         // TODO prepare dataset, and display in HTML
 

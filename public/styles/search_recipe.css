@@ -247,6 +247,10 @@ body {
 }
 
 @media (max-width: 600px) {
+    body {
+        padding: 80px 20px 40px 20px;
+    }
+
     .header h1 {
         font-size: 1.6em;
     }
@@ -259,5 +263,15 @@ body {
         width: 45px;
         height: 40px;
         font-size:  1em;
+    }
+
+    .home-btn, .logout-btn {
+        left: 10px;
+        right: auto;
+    }
+
+    .logout-btn {
+        left: auto;
+        right: 10px;
     }
 }

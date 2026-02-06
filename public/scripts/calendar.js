@@ -244,7 +244,7 @@ function openEventModal(dayName, endTime) {
 
     loadRecipes();
 
-    document.getElementById('modal').style.display = 'block';
+    document.getElementById('modal').classList.add('show');
 }
 
 function loadRecipes() {
@@ -455,13 +455,13 @@ function openDeleteSegmentModal(segmentId, segmentType = 'r') {
     segmentIdToDelete = segmentId;
     segmentTypeToDelete = segmentType;
     const modal = document.getElementById('deleteSegmentModal');
-    if(modal) modal.style.display = 'block';
+    if(modal) modal.classList.add('show');
 }
 
 function closeDeleteSegmentModal() {
     segmentIdToDelete = null;
     const modal = document.getElementById('deleteSegmentModal');
-    if(modal) modal.style.display = 'none';
+    if(modal) modal.classList.remove('show');
 }
 
 function confirmDeleteSegment() {
@@ -519,7 +519,7 @@ function confirmDeleteSegment() {
 
 function closeModal() {
     const modal = document.getElementById('modal');
-    modal.style.display = 'none'; 
+    modal.classList.remove('show');
 }
 
 function switchTab(tab) {
