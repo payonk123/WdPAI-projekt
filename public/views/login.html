@@ -21,6 +21,11 @@
                 <?= $message; ?>
             </p>
             <?php endif; ?>
+            <?php
+                if(isset($failures) && $failures == 0):
+                    sleep(10);
+                endif;
+            ?>
 
 
             <div class = "btnGroup">
@@ -34,7 +39,8 @@
                     <input id="password" name="password" type="password">
                 </div>
                 <br>
-                <button type="submit" id="loginBtn" class="login-button">Login</button>
+            
+                <button type="submit" id="loginBtn" class="login-button">login</button>
                 <p id="lockoutMessage" class="lockout-message" style="display:none;"></p>
                 <p class = "linklabel">Don't have an account? <a href="\register">Register</a></p>
             </div>

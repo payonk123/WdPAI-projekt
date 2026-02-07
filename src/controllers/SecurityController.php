@@ -84,6 +84,14 @@ class SecurityController extends AppController {
             return $this->render('register', ['message' => 'Password must be at least 6 characters']);
         }
 
+        if (!preg_match('~[0-9]+~', $password1)) {
+            return $this->render('register', ['message' => 'Password must contain at least one number']);
+        }
+
+        if (!preg_match('/[^a-zA-Z0-9]/', $password1)) {
+            return $this->render('register', ['message' => 'Password must contain at least one special character']);
+        }
+
         try {
             $hashedPassword = password_hash($password1, PASSWORD_BCRYPT);
 

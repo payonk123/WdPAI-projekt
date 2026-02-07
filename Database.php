@@ -36,6 +36,4 @@ class Database {
             die("Connection failed: " . $e->getMessage());
         }
     }
-
-    // TODO write disconnect method
 }
