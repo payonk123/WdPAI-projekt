@@ -130,3 +130,13 @@ EXECUTE FUNCTION decrease_portions();
 11. Loguję nieudane próby logowania (bez haseł) do audytu
 12. Mam poprawne wylogowanie – niszczę sesję użytkownika
 
+## Uruchomienie
+
+Do uruchomienia projektu potrzebny jest zainstalowany i włączony program Docker Desktop.
+
+1. Utwórz nowy folder.
+2. Otwórz go w terminalu.
+3. Wprowadź komendę: `git clone https://github.com/payonk123/WdPAI-projekt.git . `   
+4. Następnie wprowadź komendę: `docker compose up -d`
+5. Wejdź w przeglądarce na stronę http://localhost:8080/login
+
